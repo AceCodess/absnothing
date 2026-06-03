@@ -1,0 +1,19 @@
+:root {
+  --bg: #030208;
+  --bg-elevated: #0a0614;
+  --gold: #d4af58;
+  --gold-bright: #fff0c8;
+  --cream: #fff8e6;
+  --purple: rgba(120, 80, 255, 0.45);
+  --text: rgba(255, 248, 230, 0.88);
+  --text-muted: rgba(255, 248, 230, 0.45);
+  --border: rgba(212, 175, 88, 0.22);
+  --spot-radius: min(220px, 38vw);
+  --spot-inner: min(120px, 22vw);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --mx: -999px;
+  --my: -999px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

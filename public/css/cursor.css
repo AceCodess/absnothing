@@ -1,0 +1,55 @@
+#cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 520px;
+  height: 520px;
+  margin: 0;
+  pointer-events: none;
+  z-index: 9000;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 240, 200, 0.22) 0%,
+    rgba(255, 220, 160, 0.08) 28%,
+    rgba(120, 80, 255, 0.04) 50%,
+    transparent 70%
+  );
+  transform: translate3d(calc(var(--mx) - 260px), calc(var(--my) - 260px), 0);
+  will-change: transform;
+  opacity: 0;
+}
+
+html.cursor-ready #cursor-glow {
+  opacity: 1;
+}
+
+#bulb-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9001;
+  pointer-events: none;
+  transform: translate3d(calc(var(--mx) - 14px), calc(var(--my) - 32px), 0);
+  filter: drop-shadow(0 0 12px rgba(255, 230, 150, 0.65))
+    drop-shadow(0 0 28px rgba(212, 175, 88, 0.35));
+  will-change: transform;
+  opacity: 0;
+  transition: transform 0.05s linear;
+}
+
+html.cursor-ready #bulb-cursor {
+  opacity: 1;
+}
+
+#bulb-cursor[data-hover='1'] svg {
+  transform: scale(1.08);
+  transition: transform 0.2s var(--ease);
+}
+
+@media (pointer: coarse) {
+  #cursor-glow,
+  #bulb-cursor {
+    display: none !important;
+  }
+}

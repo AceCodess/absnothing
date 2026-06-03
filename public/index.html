@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#030208" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="description" content="∅ — absolutely nothing" />
+  <title>∅</title>
+
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=JetBrains+Mono:wght@300;400&family=Inter:wght@200;300;400&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/css/reset.css" />
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/background.css" />
+  <link rel="stylesheet" href="/css/cursor.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/hourglass.css" />
+  <link rel="stylesheet" href="/css/form.css" />
+  <link rel="stylesheet" href="/css/wallet.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+
+  <!-- Injected at runtime by server.js — SUPABASE_URL, SUPABASE_ANON_KEY -->
+  <script src="/config.js"></script>
+</head>
+<body>
+  <canvas id="constellation" aria-hidden="true"></canvas>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div id="noise" aria-hidden="true"></div>
+
+  <div id="watermark" class="watermark" aria-hidden="true">01.06.26</div>
+
+  <div id="reveal-layer" aria-hidden="true">
+    <pre class="secret" style="--x:8%;--y:18%">const ∅ = null;
+export default ∅;</pre>
+    <pre class="secret" style="--x:72%;--y:12%">// render.yaml → web
+// sand → 01.08.2026</pre>
+    <pre class="secret" style="--x:14%;--y:78%">await supabase
+  .from('subscribers')
+  .insert({ email });</pre>
+    <pre class="secret" style="--x:68%;--y:68%">if (time &gt; DEADLINE) {
+  sand.stop();
+}</pre>
+    <pre class="secret" style="--x:42%;--y:88%">wallet.connect()
+  .then(saveKey);</pre>
+    <pre class="secret" style="--x:82%;--y:42%">opacity: 0.04;
+/* 01.06.26 */</pre>
+  </div>
+
+  <div id="torch" aria-hidden="true"></div>
+
+  <main id="app">
+    <header class="brand">
+      <span class="logo" aria-label="empty set">∅</span>
+      <p class="tagline">absolutely nothing</p>
+    </header>
+
+    <section class="hourglass-stage" aria-label="countdown hourglass">
+      <span class="hourglass-emoji" aria-hidden="true">⏳</span>
+      <canvas id="hourglass"></canvas>
+      <p id="hourglass-meta" class="hourglass-meta"></p>
+    </section>
+
+    <section class="actions">
+      <form id="form" class="form" autocomplete="off" novalidate>
+        <label class="sr-only" for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="your email"
+          required
+          spellcheck="false"
+          autocapitalize="off"
+          inputmode="email"
+        />
+        <button type="submit" class="btn btn--primary">subscribe</button>
+        <p id="form-msg" class="form-msg" role="status" aria-live="polite"></p>
+      </form>
+
+      <div id="wallet" class="wallet" data-state="">
+        <button type="button" class="btn btn--wallet connect">connect solana wallet</button>
+        <span class="wallet-key" aria-live="polite"></span>
+        <p id="wallet-msg" class="wallet-msg" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <a
+        class="x-link"
+        href="https://x.com/absolutlynthsol?s=11"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="X — @absolutlynthsol"
+      >
+        <svg class="x-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        <span>@absolutlynthsol</span>
+      </a>
+    </footer>
+  </main>
+
+  <div id="cursor-glow" aria-hidden="true"></div>
+  <div id="bulb-cursor" aria-hidden="true">
+    <svg viewBox="0 0 32 40" width="28" height="35" aria-hidden="true">
+      <defs>
+        <radialGradient id="bulbGlow" cx="50%" cy="35%" r="55%">
+          <stop offset="0%" stop-color="#FFF8DC"/>
+          <stop offset="55%" stop-color="#FFE566"/>
+          <stop offset="100%" stop-color="#D4AF58"/>
+        </radialGradient>
+      </defs>
+      <path d="M11 28h10v3a5 5 0 0 1-10 0v-3z" fill="#8B7355"/>
+      <rect x="10" y="26" width="12" height="3" rx="1" fill="#A08050"/>
+      <ellipse cx="16" cy="14" rx="11" ry="13" fill="url(#bulbGlow)" stroke="#E8D48B" stroke-width="0.6"/>
+      <path d="M10 8 Q16 2 22 8" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

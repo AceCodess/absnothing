@@ -1,0 +1,23 @@
+.footer {
+  margin-top: auto;
+  padding-top: clamp(1rem, 4vh, 2rem);
+}
+
+.x-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-muted);
+  transition: color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.x-link:hover {
+  color: var(--cream);
+  transform: translateY(-1px);
+}
+
+.x-icon {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
