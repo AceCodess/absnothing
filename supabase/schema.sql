@@ -6,6 +6,7 @@ create table if not exists public.subscribers (
   created_at timestamptz not null default now()
 );
 
+-- Solana wallet addresses submitted via the on-site form
 create table if not exists public.wallets (
   id uuid primary key default gen_random_uuid(),
   public_key text not null unique,

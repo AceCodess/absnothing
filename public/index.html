@@ -23,7 +23,6 @@
   <link rel="stylesheet" href="/css/layout.css" />
   <link rel="stylesheet" href="/css/hourglass.css" />
   <link rel="stylesheet" href="/css/form.css" />
-  <link rel="stylesheet" href="/css/wallet.css" />
   <link rel="stylesheet" href="/css/footer.css" />
 
   <!-- Injected at runtime by server.js — SUPABASE_URL, SUPABASE_ANON_KEY -->
@@ -47,8 +46,8 @@ export default ∅;</pre>
     <pre class="secret" style="--x:68%;--y:68%">if (time &gt; DEADLINE) {
   sand.stop();
 }</pre>
-    <pre class="secret" style="--x:42%;--y:88%">wallet.connect()
-  .then(saveKey);</pre>
+    <pre class="secret" style="--x:42%;--y:88%">.from('wallets')
+  .insert({ public_key });</pre>
     <pre class="secret" style="--x:82%;--y:42%">opacity: 0.04;
 /* 01.06.26 */</pre>
   </div>
@@ -62,9 +61,7 @@ export default ∅;</pre>
     </header>
 
     <section class="hourglass-stage" aria-label="countdown hourglass">
-      <span class="hourglass-emoji" aria-hidden="true">⏳</span>
       <canvas id="hourglass"></canvas>
-      <p id="hourglass-meta" class="hourglass-meta"></p>
     </section>
 
     <section class="actions">
@@ -84,11 +81,21 @@ export default ∅;</pre>
         <p id="form-msg" class="form-msg" role="status" aria-live="polite"></p>
       </form>
 
-      <div id="wallet" class="wallet" data-state="">
-        <button type="button" class="btn btn--wallet connect">connect solana wallet</button>
-        <span class="wallet-key" aria-live="polite"></span>
-        <p id="wallet-msg" class="wallet-msg" role="status" aria-live="polite"></p>
-      </div>
+      <form id="wallet-form" class="form" autocomplete="off" novalidate>
+        <label class="sr-only" for="wallet-address">Solana wallet address</label>
+        <input
+          id="wallet-address"
+          type="text"
+          name="public_key"
+          placeholder="solana wallet address"
+          required
+          spellcheck="false"
+          autocapitalize="off"
+          autocorrect="off"
+        />
+        <button type="submit" class="btn btn--primary">send</button>
+        <p id="wallet-msg" class="form-msg" role="status" aria-live="polite"></p>
+      </form>
     </section>
 
     <footer class="footer">

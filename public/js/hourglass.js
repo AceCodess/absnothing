@@ -1,4 +1,4 @@
-import { clamp, fitCanvas, lerp, onFrame, onResize, random } from './utils.js';
+import { clamp, fitCanvas, onFrame, onResize, random } from './utils.js';
 import { TIMELINE_START, DEADLINE } from './config.js';
 
 const STREAM_PARTICLES = 38;
@@ -53,7 +53,7 @@ const drawGlassChamber = (ctx, geom, isTop) => {
   ctx.save();
   if (isTop) buildTopChamberPath(ctx, geom);
   else buildBottomChamberPath(ctx, geom);
-  const { cx, chamberTopY: topY, chamberBottomY: bottomY } = geom;
+  const { cx } = geom;
   const grad = ctx.createLinearGradient(cx - geom.chamberR, 0, cx + geom.chamberR, 0);
   grad.addColorStop(0, 'rgba(8, 6, 14, 0.92)');
   grad.addColorStop(0.5, 'rgba(20, 14, 32, 0.68)');
@@ -177,7 +177,6 @@ const drawFrame = (ctx, geom) => {
 
 export const initHourglass = () => {
   const canvas = document.getElementById('hourglass');
-  const meta = document.getElementById('hourglass-meta');
   if (!canvas) return;
   const ctx = canvas.getContext('2d', { alpha: true });
 
@@ -225,25 +224,6 @@ export const initHourglass = () => {
   resize();
   onResize(resize);
 
-  let lastSecond = -1;
-
-  const updateMeta = () => {
-    if (!meta) return;
-    const now = Date.now();
-    if (now >= DEADLINE) {
-      meta.textContent = '01.08.2026 — sand empty';
-      meta.dataset.done = '1';
-      return;
-    }
-    const remaining = Math.max(0, DEADLINE - now);
-    const days = Math.floor(remaining / 86400000);
-    const hours = Math.floor((remaining % 86400000) / 3600000);
-    const mins = Math.floor((remaining % 3600000) / 60000);
-    const secs = Math.floor((remaining % 60000) / 1000);
-    meta.textContent = `${days}d ${hours}h ${mins}m ${secs}s → 01.08.2026`;
-    meta.dataset.done = '0';
-  };
-
   onFrame((time, dt) => {
     if (!geom) return;
     ctx.setTransform(dim.dpr, 0, 0, dim.dpr, 0, 0);
@@ -281,13 +261,5 @@ export const initHourglass = () => {
 
     drawNeckGlow(ctx, geom, flowing);
     drawFrame(ctx, geom);
-
-    const sec = Math.floor(time / 1000);
-    if (sec !== lastSecond) {
-      lastSecond = sec;
-      updateMeta();
-    }
   });
-
-  updateMeta();
 };

@@ -1,6 +1,6 @@
 # ∅ — absolutely nothing
 
-Single-page experience: interactive dark canvas, light-bulb cursor spotlight, hourglass countdown to **01.08.2026**, email capture, and Solana wallet linking via Supabase.
+Single-page experience: interactive dark canvas, light-bulb cursor spotlight, hourglass countdown to **01.08.2026**, email capture, and Solana wallet address submission via Supabase.
 
 ## Features
 
@@ -10,7 +10,7 @@ Single-page experience: interactive dark canvas, light-bulb cursor spotlight, ho
 - Light-bulb cursor with radial torch glow
 - Canvas hourglass — sand drains proportionally from **01.06.2026** → **01.08.2026**
 - Email form → `subscribers` table
-- Solana wallet connect (Phantom / Solflare — Wallet Standard, same flow as `@solana/wallet-adapter-react`)
+- Wallet address form → `wallets` table (`public_key`)
 - X link → [@absolutlynthsol](https://x.com/absolutlynthsol?s=11)
 
 ## Stack
