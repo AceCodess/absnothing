@@ -53,16 +53,23 @@
   inset: 0;
   z-index: 3;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+html.spotlight-active #reveal-layer {
+  opacity: 1;
+  visibility: visible;
   -webkit-mask-image: radial-gradient(
-    circle var(--spot-radius) at var(--mx) var(--my),
+    circle var(--spot-r) at var(--mx) var(--my),
     #000 0%,
-    #000 calc(var(--spot-inner)),
+    #000 38%,
     transparent 72%
   );
   mask-image: radial-gradient(
-    circle var(--spot-radius) at var(--mx) var(--my),
+    circle var(--spot-r) at var(--mx) var(--my),
     #000 0%,
-    #000 calc(var(--spot-inner)),
+    #000 38%,
     transparent 72%
   );
 }
@@ -76,9 +83,14 @@
   font-size: clamp(0.62rem, 1.4vw, 0.82rem);
   font-weight: 300;
   line-height: 1.55;
-  color: rgba(212, 175, 88, 0.75);
+  color: rgba(212, 175, 88, 0.82);
   white-space: pre;
-  text-shadow: 0 0 24px rgba(255, 230, 170, 0.35);
+  text-shadow: 0 0 20px rgba(255, 230, 170, 0.4);
+  opacity: 0;
+}
+
+html.spotlight-active #reveal-layer .secret {
+  opacity: 1;
 }
 
 #torch {
@@ -86,25 +98,32 @@
   inset: 0;
   z-index: 4;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
   background: radial-gradient(
-    circle var(--spot-radius) at var(--mx) var(--my),
-    rgba(255, 235, 190, 0.14) 0%,
-    rgba(255, 220, 150, 0.06) 35%,
-    transparent 68%
+    circle var(--spot-r) at var(--mx) var(--my),
+    rgba(255, 235, 190, 0.16) 0%,
+    rgba(255, 220, 150, 0.07) 32%,
+    transparent 70%
   );
   mix-blend-mode: screen;
-  transition: opacity 0.2s var(--ease);
+}
+
+html.spotlight-active #torch {
+  opacity: 1;
+  visibility: visible;
 }
 
 @media (pointer: coarse) {
-  #reveal-layer {
-    -webkit-mask-image: none;
-    mask-image: none;
-    opacity: 0;
-  }
-
+  #reveal-layer,
   #torch {
-    opacity: 0;
+    display: none !important;
+  }
+}
+
+@supports not ((mask-image: radial-gradient(circle, #000, transparent)) or (-webkit-mask-image: radial-gradient(circle, #000, transparent))) {
+  #reveal-layer {
+    display: none !important;
   }
 }
 

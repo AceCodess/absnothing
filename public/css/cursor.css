@@ -20,7 +20,7 @@
   opacity: 0;
 }
 
-html.cursor-ready #cursor-glow {
+html.spotlight-active #cursor-glow {
   opacity: 1;
 }
 
@@ -38,7 +38,7 @@ html.cursor-ready #cursor-glow {
   transition: transform 0.05s linear;
 }
 
-html.cursor-ready #bulb-cursor {
+html.spotlight-active #bulb-cursor {
   opacity: 1;
 }
 
