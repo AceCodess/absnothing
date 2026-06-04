@@ -47,25 +47,6 @@ body.main-unlocked .main-wrap {
     0 0 80px rgba(212, 175, 88, 0.2);
 }
 
-.gate__instructions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-.gate__instructions p {
-  font-size: clamp(0.72rem, 2.2vw, 0.85rem);
-  letter-spacing: 0.22em;
-  text-transform: lowercase;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.gate__instructions em {
-  font-style: normal;
-  color: rgba(212, 175, 88, 0.55);
-}
-
 #gate-form {
   width: 100%;
 }
