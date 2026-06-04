@@ -63,63 +63,6 @@ const drawSoftGlow = (ctx, geom, time, flowing) => {
   ctx.fill();
 };
 
-const drawWoodFrame = (ctx, geom, time) => {
-  const { cx, plateTopY, plateBottomY, plateHeight, frameW, midY, neckR } = geom;
-  const shimmer = Math.sin(time * 0.002) * 0.5 + 0.5;
-  const x0 = cx - frameW / 2;
-  const x1 = cx + frameW / 2;
-
-  const drawCap = (y, isTop) => {
-    const h = plateHeight;
-    const wood = ctx.createLinearGradient(x0, y, x1, y + h);
-    wood.addColorStop(0, '#5c4220');
-    wood.addColorStop(0.25, '#8b6530');
-    wood.addColorStop(0.5, `rgba(196, 150, 70, ${0.9 + shimmer * 0.1})`);
-    wood.addColorStop(0.75, '#8b6530');
-    wood.addColorStop(1, '#4a3518');
-    ctx.fillStyle = wood;
-    ctx.fillRect(x0, y, frameW, h);
-    ctx.strokeStyle = 'rgba(60, 42, 18, 0.9)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(x0 + 0.5, y + 0.5, frameW - 1, h - 1);
-    if (isTop) {
-      ctx.fillStyle = 'rgba(40, 28, 12, 0.5)';
-      ctx.fillRect(x0 + 4, y + h - 3, frameW - 8, 2);
-    }
-  };
-
-  drawCap(plateTopY, true);
-  drawCap(plateBottomY, false);
-
-  const postTop = plateTopY + plateHeight;
-  const postBottom = plateBottomY;
-  const posts = [x0 + 3, x1 - 3];
-
-  for (let i = 0; i < posts.length; i++) {
-    const px = posts[i];
-    const pg = ctx.createLinearGradient(px - 3, 0, px + 3, 0);
-    pg.addColorStop(0, '#4a3518');
-    pg.addColorStop(0.5, '#a67c3a');
-    pg.addColorStop(1, '#4a3518');
-    ctx.fillStyle = pg;
-    ctx.fillRect(px - 2.5, postTop, 5, postBottom - postTop);
-    ctx.fillStyle = 'rgba(212, 175, 88, 0.5)';
-    ctx.fillRect(px - 0.8, postTop + 2, 1.6, postBottom - postTop - 4);
-  }
-
-  const brass = ctx.createLinearGradient(cx - neckR - 14, midY, cx + neckR + 14, midY);
-  brass.addColorStop(0, '#6b5228');
-  brass.addColorStop(0.5, `rgba(212, 175, 88, ${0.95})`);
-  brass.addColorStop(1, '#6b5228');
-  ctx.fillStyle = brass;
-  ctx.beginPath();
-  ctx.ellipse(cx, midY, neckR + 11, 4.5, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = '#3d2c14';
-  ctx.lineWidth = 0.8;
-  ctx.stroke();
-};
-
 const drawGlass = (ctx, geom, isTop, time) => {
   ctx.save();
   if (isTop) buildTopChamberPath(ctx, geom);
@@ -289,19 +232,12 @@ export const initHourglass = () => {
     const W = dim.w;
     const H = dim.h;
     const cx = W / 2;
-    const plateHeight = Math.max(10, H * 0.045);
-    const plateTopY = Math.max(14, H * 0.04);
-    const plateBottomY = H - plateTopY - plateHeight;
-    const frameW = W * 0.88;
-    const chamberTopY = plateTopY + plateHeight + 4;
-    const chamberBottomY = plateBottomY - 4;
+    const chamberTopY = H * 0.06;
+    const chamberBottomY = H * 0.94;
     const midY = (chamberTopY + chamberBottomY) / 2;
-    const chamberR = Math.min(W * 0.36, (chamberBottomY - chamberTopY) * 0.38);
+    const chamberR = Math.min(W * 0.38, (chamberBottomY - chamberTopY) * 0.4);
     const neckR = Math.max(2.5, W * 0.014);
-    geom = {
-      W, H, cx, plateHeight, plateTopY, plateBottomY, frameW,
-      chamberTopY, chamberBottomY, midY, chamberR, neckR
-    };
+    geom = { W, H, cx, chamberTopY, chamberBottomY, midY, chamberR, neckR };
   };
 
   const seedStream = () => {
@@ -337,8 +273,6 @@ export const initHourglass = () => {
     const flowing = topAmount > 0.0005 && Date.now() < DEADLINE;
 
     drawSoftGlow(ctx, geom, time, flowing);
-    drawWoodFrame(ctx, geom, time);
-
     drawGlass(ctx, geom, true, time);
     drawGlass(ctx, geom, false, time);
     drawTopSand(ctx, geom, topAmount);
