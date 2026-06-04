@@ -106,13 +106,13 @@ html.gate-spotlight-active #gate-reveal-layer {
 
 .gate-secret {
   position: absolute;
-  left: 27%;
-  top: 68%;
-  transform: translate(-50%, -50%);
+  left: clamp(0.75rem, 3vw, 1.25rem);
+  top: clamp(0.75rem, 3vh, 1.25rem);
+  transform: none;
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 4.5vw, 2.4rem);
+  font-size: clamp(0.58rem, 1.4vw, 0.72rem);
   font-weight: 300;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.18em;
   color: var(--gold-bright);
   text-shadow: 0 0 28px rgba(255, 230, 170, 0.55);
   user-select: none;
