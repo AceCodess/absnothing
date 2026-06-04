@@ -6,7 +6,7 @@ Single-page experience: interactive dark canvas, light-bulb cursor spotlight, ho
 
 - **∅** brand hero, particle + constellation background (mouse-reactive)
 - Hidden watermark **01.06.26** (`opacity: 0.04`)
-- Background code snippets revealed only inside the cursor spotlight
+- Light-bulb torch illuminates the dark background (no floating code)
 - Light-bulb cursor with radial torch glow
 - Canvas hourglass — sand drains proportionally from **01.06.2026** → **01.08.2026**
 - Email form → `subscribers` table

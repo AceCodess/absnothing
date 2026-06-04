@@ -48,51 +48,6 @@
   mix-blend-mode: soft-light;
 }
 
-#reveal-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
-html.spotlight-active #reveal-layer {
-  opacity: 1;
-  visibility: visible;
-  -webkit-mask-image: radial-gradient(
-    circle var(--spot-r) at var(--mx) var(--my),
-    #000 0%,
-    #000 38%,
-    transparent 72%
-  );
-  mask-image: radial-gradient(
-    circle var(--spot-r) at var(--mx) var(--my),
-    #000 0%,
-    #000 38%,
-    transparent 72%
-  );
-}
-
-#reveal-layer .secret {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  transform: translate(-50%, -50%);
-  font-family: var(--font-mono);
-  font-size: clamp(0.62rem, 1.4vw, 0.82rem);
-  font-weight: 300;
-  line-height: 1.55;
-  color: rgba(212, 175, 88, 0.82);
-  white-space: pre;
-  text-shadow: 0 0 20px rgba(255, 230, 170, 0.4);
-  opacity: 0;
-}
-
-html.spotlight-active #reveal-layer .secret {
-  opacity: 1;
-}
-
 #torch {
   position: fixed;
   inset: 0;
@@ -115,14 +70,7 @@ html.spotlight-active #torch {
 }
 
 @media (pointer: coarse) {
-  #reveal-layer,
   #torch {
-    display: none !important;
-  }
-}
-
-@supports not ((mask-image: radial-gradient(circle, #000, transparent)) or (-webkit-mask-image: radial-gradient(circle, #000, transparent))) {
-  #reveal-layer {
     display: none !important;
   }
 }
