@@ -24,7 +24,10 @@ const SUPABASE_ANON_KEY =
   process.env.SUPABASE_ANON_KEY ||
   process.env.SUPABASE_PUBLISHABLE_KEY ||
   '';
-const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY || '';
+const SUPABASE_SECRET_KEY =
+  process.env.SUPABASE_SECRET_KEY ||
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  '';
 
 let supabaseAdmin = null;
 if (SUPABASE_URL && SUPABASE_SECRET_KEY) {
@@ -55,6 +58,11 @@ app.get('/health', (_req, res) => {
   res.status(200).json({
     status: 'ok',
     supabase: Boolean(supabaseAdmin),
+    config: {
+      hasUrl: Boolean(SUPABASE_URL),
+      hasAnonKey: Boolean(SUPABASE_ANON_KEY),
+      hasSecretKey: Boolean(SUPABASE_SECRET_KEY)
+    },
     uptime: process.uptime()
   });
 });
@@ -93,9 +101,19 @@ function isDuplicatePg(error) {
   return error && (error.code === '23505' || /duplicate/i.test(error.message || ''));
 }
 
-async function insertRow(table, row, uniqueField) {
+async function insertRow(table, row) {
   if (!supabaseAdmin) {
-    return { ok: false, duplicate: false, message: 'database not configured' };
+    const missing = [];
+    if (!SUPABASE_URL) missing.push('SUPABASE_URL');
+    if (!SUPABASE_SECRET_KEY) missing.push('SUPABASE_SECRET_KEY');
+    return {
+      ok: false,
+      duplicate: false,
+      message:
+        missing.length > 0
+          ? `database not configured (set ${missing.join(' and ')} on Render)`
+          : 'database not configured'
+    };
   }
   const { error } = await supabaseAdmin.from(table).insert([row]);
   if (!error) return { ok: true, duplicate: false };
@@ -106,14 +124,14 @@ async function insertRow(table, row, uniqueField) {
 app.post('/api/subscribe', async (req, res) => {
   const email = sanitizeEmail(req.body && req.body.email);
   if (!email) return res.status(400).json({ ok: false, message: 'invalid email' });
-  const result = await insertRow('subscribers', { email }, 'email');
+  const result = await insertRow('subscribers', { email });
   return res.status(result.ok ? 200 : 503).json(result);
 });
 
 app.post('/api/wallet', async (req, res) => {
   const publicKey = sanitizePublicKey(req.body && req.body.public_key);
   if (!publicKey) return res.status(400).json({ ok: false, message: 'invalid public key' });
-  const result = await insertRow('wallets', { public_key: publicKey }, 'public_key');
+  const result = await insertRow('wallets', { public_key: publicKey });
   return res.status(result.ok ? 200 : 503).json(result);
 });
 
@@ -133,4 +151,11 @@ app.get('*', (_req, res) => {
 
 app.listen(PORT, () => {
   console.log(`∅ listening on :${PORT}`);
+  if (!supabaseAdmin) {
+    console.warn(
+      '[supabase] NOT configured — set SUPABASE_URL + SUPABASE_SECRET_KEY (and SUPABASE_ANON_KEY for browser writes)'
+    );
+  } else {
+    console.log('[supabase] connected');
+  }
 });
