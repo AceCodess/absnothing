@@ -338,6 +338,7 @@ export const initHourglass = () => {
 
     drawSoftGlow(ctx, geom, time, flowing);
     drawWoodFrame(ctx, geom, time);
+
     drawGlass(ctx, geom, true, time);
     drawGlass(ctx, geom, false, time);
     drawTopSand(ctx, geom, topAmount);
@@ -363,9 +364,7 @@ export const initHourglass = () => {
         }
       }
       drawStream(ctx, geom, stream, time, dt);
+      drawNeckGlow(ctx, geom, flowing);
     }
-
-    drawNeckGlow(ctx, geom, flowing);
-    drawWoodFrame(ctx, geom, time);
   });
 };
