@@ -160,13 +160,14 @@ const drawSandGrains = (ctx, geom, topAmount, bottomAmount, time) => {
 
     let y;
     let spread;
+    const t = (i % 17) / 17;
     if (inTop) {
       const h = (midY - topY) * topAmount;
-      y = midY - h + random(0, 1) * h * 0.85;
+      y = midY - h + t * h * 0.85;
       spread = chamberR * 0.75;
     } else {
       const h = (bottomY - midY) * bottomAmount;
-      y = bottomY - h + random(0, 1) * h * 0.9;
+      y = bottomY - h + t * h * 0.9;
       spread = chamberR * 0.8;
     }
     const x = cx + Math.sin(seed * 4.2 + time * 0.002) * spread * 0.55;
