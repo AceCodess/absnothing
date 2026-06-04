@@ -1,0 +1,387 @@
+/* ── Gate page (page 1) ── */
+
+.main-wrap {
+  position: relative;
+  z-index: 5;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.main-wrap.main-wrap--visible,
+body.main-unlocked .main-wrap {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  overflow: hidden;
+}
+
+.gate__content {
+  position: relative;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.25rem, 4vh, 2rem);
+  width: min(100%, 420px);
+  text-align: center;
+}
+
+.gate__logo {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 14vw, 7rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--cream);
+  text-shadow:
+    0 0 40px rgba(120, 80, 255, 0.35),
+    0 0 80px rgba(212, 175, 88, 0.2);
+}
+
+.gate__instructions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.gate__instructions p {
+  font-size: clamp(0.72rem, 2.2vw, 0.85rem);
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.gate__instructions em {
+  font-style: normal;
+  color: rgba(212, 175, 88, 0.55);
+}
+
+#gate-form {
+  width: 100%;
+}
+
+#gate-code {
+  flex: 1 1 160px;
+  text-align: center;
+  letter-spacing: 0.18em;
+}
+
+#gate-torch {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  background: radial-gradient(
+    circle var(--spot-r) at var(--mx) var(--my),
+    rgba(255, 235, 190, 0.18) 0%,
+    rgba(255, 220, 150, 0.08) 32%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+}
+
+html.gate-spotlight-active #gate-torch {
+  opacity: 1;
+  visibility: visible;
+}
+
+#gate-reveal-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+html.gate-spotlight-active #gate-reveal-layer {
+  opacity: 1;
+  visibility: visible;
+  -webkit-mask-image: radial-gradient(
+    circle var(--spot-r) at var(--mx) var(--my),
+    #000 0%,
+    #000 36%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    circle var(--spot-r) at var(--mx) var(--my),
+    #000 0%,
+    #000 36%,
+    transparent 72%
+  );
+}
+
+.gate-secret {
+  position: absolute;
+  left: 27%;
+  top: 68%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 4.5vw, 2.4rem);
+  font-weight: 300;
+  letter-spacing: 0.24em;
+  color: var(--gold-bright);
+  text-shadow: 0 0 28px rgba(255, 230, 170, 0.55);
+  user-select: none;
+  opacity: 0;
+}
+
+html.gate-spotlight-active .gate-secret {
+  opacity: 1;
+}
+
+#gate-cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 520px;
+  height: 520px;
+  pointer-events: none;
+  z-index: 9100;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 240, 200, 0.24) 0%,
+    rgba(255, 220, 160, 0.1) 28%,
+    rgba(120, 80, 255, 0.05) 50%,
+    transparent 70%
+  );
+  transform: translate3d(calc(var(--mx) - 260px), calc(var(--my) - 260px), 0);
+  will-change: transform;
+  opacity: 0;
+}
+
+html.gate-cursor-ready #gate-cursor-glow {
+  opacity: 1;
+}
+
+#gate-bulb-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9101;
+  pointer-events: none;
+  transform: translate3d(calc(var(--mx) - 14px), calc(var(--my) - 32px), 0);
+  filter: drop-shadow(0 0 12px rgba(255, 230, 150, 0.65))
+    drop-shadow(0 0 28px rgba(212, 175, 88, 0.35));
+  will-change: transform;
+  opacity: 0;
+}
+
+html.gate-cursor-ready #gate-bulb-cursor {
+  opacity: 1;
+}
+
+html.gate-active body {
+  cursor: none;
+}
+
+@media (pointer: coarse) {
+  html.gate-active body {
+    cursor: auto;
+  }
+}
+
+/* ── Quantum warp transition ── */
+
+.quantum-warp {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.quantum-warp[aria-hidden='false'] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.quantum-warp__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40vmax;
+  height: 40vmax;
+  margin: -20vmax 0 0 -20vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 248, 230, 0.9) 0%,
+    rgba(212, 175, 88, 0.45) 18%,
+    rgba(120, 80, 255, 0.35) 42%,
+    transparent 68%
+  );
+  transform: scale(0.05);
+  opacity: 0;
+  filter: blur(8px);
+}
+
+.quantum-warp__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120vmax;
+  height: 120vmax;
+  margin: -60vmax 0 0 -60vmax;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 88, 0.25);
+  box-shadow:
+    0 0 60px rgba(120, 80, 255, 0.4),
+    inset 0 0 80px rgba(255, 230, 170, 0.08);
+  transform: scale(0.15);
+  opacity: 0;
+}
+
+.quantum-warp__streaks {
+  position: absolute;
+  inset: -20%;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg 8deg,
+    rgba(120, 80, 255, 0.12) 8deg 9deg
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+html.quantum-active .gate {
+  animation: gate-quantum-out 1.05s cubic-bezier(0.55, 0.06, 0.22, 0.99) forwards;
+}
+
+html.quantum-active .main-wrap {
+  visibility: visible;
+  animation: main-quantum-in 1.05s cubic-bezier(0.16, 0.84, 0.22, 1) forwards;
+}
+
+html.quantum-active .quantum-warp__core {
+  animation: quantum-core 1.05s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+
+html.quantum-active .quantum-warp__ring {
+  animation: quantum-ring 1.05s cubic-bezier(0.45, 0, 0.15, 1) forwards;
+}
+
+html.quantum-active .quantum-warp__streaks {
+  animation: quantum-streaks 1.05s ease-out forwards;
+}
+
+html.quantum-active #constellation,
+html.quantum-active #particles {
+  animation: bg-quantum-pulse 1.05s ease-out forwards;
+}
+
+@keyframes gate-quantum-out {
+  0% {
+    transform: scale(1);
+    filter: blur(0);
+    opacity: 1;
+  }
+  45% {
+    transform: scale(1.35);
+    filter: blur(2px);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(4.5);
+    filter: blur(28px);
+    opacity: 0;
+  }
+}
+
+@keyframes main-quantum-in {
+  0% {
+    transform: scale(0.12);
+    filter: blur(36px);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(1.06);
+    filter: blur(6px);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes quantum-core {
+  0% {
+    transform: scale(0.05);
+    opacity: 0;
+    filter: blur(12px);
+  }
+  35% {
+    opacity: 1;
+    filter: blur(4px);
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+    filter: blur(40px);
+  }
+}
+
+@keyframes quantum-ring {
+  0% {
+    transform: scale(0.15);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes quantum-streaks {
+  0% {
+    transform: scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.8) rotate(28deg);
+    opacity: 0;
+  }
+}
+
+@keyframes bg-quantum-pulse {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.quantum-active .gate,
+  html.quantum-active .main-wrap,
+  html.quantum-active .quantum-warp__core,
+  html.quantum-active .quantum-warp__ring,
+  html.quantum-active .quantum-warp__streaks,
+  html.quantum-active #constellation,
+  html.quantum-active #particles {
+    animation-duration: 0.35s;
+  }
+}

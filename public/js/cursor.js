@@ -5,10 +5,28 @@ const updateSpotSize = (root) => {
   root.style.setProperty('--spot-r', `${Math.round(r)}px`);
 };
 
-export const initCursor = () => {
-  if (isCoarsePointer()) return;
+/**
+ * @param {object} [options]
+ * @param {string} [options.bulbId]
+ * @param {string} [options.glowId]
+ * @param {string} [options.torchId]
+ * @param {string} [options.spotlightClass]
+ * @param {string} [options.readyClass]
+ * @param {boolean} [options.enableTouch] — allow spotlight on touch devices (gate)
+ */
+export const initCursor = (options = {}) => {
+  const {
+    bulbId = 'bulb-cursor',
+    glowId = 'cursor-glow',
+    torchId = 'torch',
+    spotlightClass = 'spotlight-active',
+    readyClass = 'cursor-ready',
+    enableTouch = false
+  } = options;
 
-  const bulb = document.getElementById('bulb-cursor');
+  if (!enableTouch && isCoarsePointer()) return;
+
+  const bulb = document.getElementById(bulbId);
   const root = document.documentElement;
   if (!bulb) return;
 
@@ -26,21 +44,40 @@ export const initCursor = () => {
   const activateSpotlight = () => {
     if (hasMoved) return;
     hasMoved = true;
-    root.classList.add('spotlight-active', 'cursor-ready');
+    root.classList.add(spotlightClass, readyClass);
+  };
+
+  const track = (clientX, clientY) => {
+    targetX = clientX;
+    targetY = clientY;
+    activateSpotlight();
   };
 
   updateSpotSize(root);
   onResize(() => updateSpotSize(root));
   setVars(x, y);
 
-  const onMove = (e) => {
-    targetX = e.clientX;
-    targetY = e.clientY;
-    activateSpotlight();
-  };
+  window.addEventListener('pointermove', (e) => track(e.clientX, e.clientY), { passive: true });
+  window.addEventListener('mousemove', (e) => track(e.clientX, e.clientY), { passive: true });
 
-  window.addEventListener('pointermove', onMove, { passive: true });
-  window.addEventListener('mousemove', onMove, { passive: true });
+  if (enableTouch) {
+    window.addEventListener(
+      'touchmove',
+      (e) => {
+        const t = e.touches[0];
+        if (t) track(t.clientX, t.clientY);
+      },
+      { passive: true }
+    );
+    window.addEventListener(
+      'touchstart',
+      (e) => {
+        const t = e.touches[0];
+        if (t) track(t.clientX, t.clientY);
+      },
+      { passive: true }
+    );
+  }
 
   document.addEventListener('pointerover', (e) => {
     if (!(e.target instanceof Element)) return;
@@ -66,16 +103,17 @@ export const initCursor = () => {
   };
   raf = requestAnimationFrame(tick);
 
-  window.addEventListener('mouseleave', () => {
-    root.classList.remove('cursor-ready');
-    root.classList.remove('spotlight-active');
+  const deactivate = () => {
+    root.classList.remove(readyClass, spotlightClass);
     hasMoved = false;
     x = -9999;
     y = -9999;
     targetX = x;
     targetY = y;
     setVars(x, y);
-  });
+  };
+
+  window.addEventListener('mouseleave', deactivate);
 
   window.addEventListener('mouseenter', (e) => {
     targetX = e.clientX;
@@ -83,5 +121,8 @@ export const initCursor = () => {
     activateSpotlight();
   });
 
-  return () => cancelAnimationFrame(raf);
+  return () => {
+    cancelAnimationFrame(raf);
+    deactivate();
+  };
 };

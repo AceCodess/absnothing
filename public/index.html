@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="/css/variables.css" />
   <link rel="stylesheet" href="/css/background.css" />
   <link rel="stylesheet" href="/css/cursor.css" />
+  <link rel="stylesheet" href="/css/gate.css" />
   <link rel="stylesheet" href="/css/layout.css" />
   <link rel="stylesheet" href="/css/hourglass.css" />
   <link rel="stylesheet" href="/css/form.css" />
@@ -33,85 +34,143 @@
   <canvas id="particles" aria-hidden="true"></canvas>
   <div id="noise" aria-hidden="true"></div>
 
-  <div id="watermark" class="watermark" aria-hidden="true">01.06.26</div>
+  <!-- Page 1: secret code gate -->
+  <section id="gate" class="gate" aria-label="entry gate">
+    <div id="gate-torch" aria-hidden="true"></div>
+    <div id="gate-reveal-layer" aria-hidden="true">
+      <span class="gate-secret">01.08.26</span>
+    </div>
 
-  <div id="torch" aria-hidden="true"></div>
-
-  <main id="app">
-    <header class="brand">
-      <span class="logo" aria-label="empty set">∅</span>
-      <p class="tagline">absolutely nothing</p>
-    </header>
-
-    <section class="hourglass-stage" aria-label="countdown hourglass">
-      <canvas id="hourglass"></canvas>
-    </section>
-
-    <section class="actions">
-      <form id="form" class="form" autocomplete="off" novalidate>
-        <label class="sr-only" for="email">Email</label>
+    <div class="gate__content">
+      <span class="gate__logo" aria-label="empty set">∅</span>
+      <div class="gate__instructions">
+        <p>the code is hidden in the dark</p>
+        <p>move your light — <em>find it</em></p>
+        <p>then enter it below to continue</p>
+      </div>
+      <form id="gate-form" class="form" autocomplete="off" novalidate>
+        <label class="sr-only" for="gate-code">Secret code</label>
         <input
-          id="email"
-          type="email"
-          name="email"
-          placeholder="your email"
-          required
-          spellcheck="false"
-          autocapitalize="off"
-          inputmode="email"
-        />
-        <button type="submit" class="btn btn--primary">subscribe</button>
-        <p id="form-msg" class="form-msg" role="status" aria-live="polite"></p>
-      </form>
-
-      <form id="wallet-form" class="form" autocomplete="off" novalidate>
-        <label class="sr-only" for="wallet-address">Solana wallet address</label>
-        <input
-          id="wallet-address"
+          id="gate-code"
           type="text"
-          name="public_key"
-          placeholder="solana wallet address"
+          name="code"
+          placeholder="enter code"
           required
           spellcheck="false"
           autocapitalize="off"
           autocorrect="off"
+          autocomplete="off"
         />
-        <button type="submit" class="btn btn--primary">send</button>
-        <p id="wallet-msg" class="form-msg" role="status" aria-live="polite"></p>
+        <button type="submit" class="btn btn--primary">enter</button>
+        <p id="gate-msg" class="form-msg" role="status" aria-live="polite"></p>
       </form>
-    </section>
+    </div>
 
-    <footer class="footer">
-      <a
-        class="x-link"
-        href="https://x.com/absolutlynthsol?s=11"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="X — @absolutlynthsol"
-      >
-        <svg class="x-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-        <span>@absolutlynthsol</span>
-      </a>
-    </footer>
-  </main>
+    <div id="gate-cursor-glow" aria-hidden="true"></div>
+    <div id="gate-bulb-cursor" aria-hidden="true">
+      <svg viewBox="0 0 32 40" width="28" height="35" aria-hidden="true">
+        <defs>
+          <radialGradient id="gateBulbGlow" cx="50%" cy="35%" r="55%">
+            <stop offset="0%" stop-color="#FFF8DC"/>
+            <stop offset="55%" stop-color="#FFE566"/>
+            <stop offset="100%" stop-color="#D4AF58"/>
+          </radialGradient>
+        </defs>
+        <path d="M11 28h10v3a5 5 0 0 1-10 0v-3z" fill="#8B7355"/>
+        <rect x="10" y="26" width="12" height="3" rx="1" fill="#A08050"/>
+        <ellipse cx="16" cy="14" rx="11" ry="13" fill="url(#gateBulbGlow)" stroke="#E8D48B" stroke-width="0.6"/>
+        <path d="M10 8 Q16 2 22 8" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </section>
 
-  <div id="cursor-glow" aria-hidden="true"></div>
-  <div id="bulb-cursor" aria-hidden="true">
-    <svg viewBox="0 0 32 40" width="28" height="35" aria-hidden="true">
-      <defs>
-        <radialGradient id="bulbGlow" cx="50%" cy="35%" r="55%">
-          <stop offset="0%" stop-color="#FFF8DC"/>
-          <stop offset="55%" stop-color="#FFE566"/>
-          <stop offset="100%" stop-color="#D4AF58"/>
-        </radialGradient>
-      </defs>
-      <path d="M11 28h10v3a5 5 0 0 1-10 0v-3z" fill="#8B7355"/>
-      <rect x="10" y="26" width="12" height="3" rx="1" fill="#A08050"/>
-      <ellipse cx="16" cy="14" rx="11" ry="13" fill="url(#bulbGlow)" stroke="#E8D48B" stroke-width="0.6"/>
-      <path d="M10 8 Q16 2 22 8" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
-    </svg>
+  <div id="quantum-warp" class="quantum-warp" aria-hidden="true">
+    <div class="quantum-warp__streaks" aria-hidden="true"></div>
+    <div class="quantum-warp__ring" aria-hidden="true"></div>
+    <div class="quantum-warp__core" aria-hidden="true"></div>
+  </div>
+
+  <!-- Page 2: main experience (unchanged) -->
+  <div id="main-wrap" class="main-wrap">
+    <div id="watermark" class="watermark" aria-hidden="true">01.06.26</div>
+    <div id="torch" aria-hidden="true"></div>
+
+    <main id="app">
+      <header class="brand">
+        <span class="logo" aria-label="empty set">∅</span>
+        <p class="tagline">absolutely nothing</p>
+      </header>
+
+      <section class="hourglass-stage" aria-label="countdown hourglass">
+        <canvas id="hourglass"></canvas>
+      </section>
+
+      <section class="actions">
+        <form id="form" class="form" autocomplete="off" novalidate>
+          <label class="sr-only" for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="your email"
+            required
+            spellcheck="false"
+            autocapitalize="off"
+            inputmode="email"
+          />
+          <button type="submit" class="btn btn--primary">subscribe</button>
+          <p id="form-msg" class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+
+        <form id="wallet-form" class="form" autocomplete="off" novalidate>
+          <label class="sr-only" for="wallet-address">Solana wallet address</label>
+          <input
+            id="wallet-address"
+            type="text"
+            name="public_key"
+            placeholder="solana wallet address"
+            required
+            spellcheck="false"
+            autocapitalize="off"
+            autocorrect="off"
+          />
+          <button type="submit" class="btn btn--primary">send</button>
+          <p id="wallet-msg" class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <a
+          class="x-link"
+          href="https://x.com/absolutlynthsol?s=11"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="X — @absolutlynthsol"
+        >
+          <svg class="x-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          <span>@absolutlynthsol</span>
+        </a>
+      </footer>
+    </main>
+
+    <div id="cursor-glow" aria-hidden="true"></div>
+    <div id="bulb-cursor" aria-hidden="true">
+      <svg viewBox="0 0 32 40" width="28" height="35" aria-hidden="true">
+        <defs>
+          <radialGradient id="bulbGlow" cx="50%" cy="35%" r="55%">
+            <stop offset="0%" stop-color="#FFF8DC"/>
+            <stop offset="55%" stop-color="#FFE566"/>
+            <stop offset="100%" stop-color="#D4AF58"/>
+          </radialGradient>
+        </defs>
+        <path d="M11 28h10v3a5 5 0 0 1-10 0v-3z" fill="#8B7355"/>
+        <rect x="10" y="26" width="12" height="3" rx="1" fill="#A08050"/>
+        <ellipse cx="16" cy="14" rx="11" ry="13" fill="url(#bulbGlow)" stroke="#E8D48B" stroke-width="0.6"/>
+        <path d="M10 8 Q16 2 22 8" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
   </div>
 
   <script type="module" src="/js/main.js"></script>
