@@ -5,12 +5,15 @@
   z-index: 5;
   visibility: hidden;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
 }
 
 .main-wrap.main-wrap--visible,
 body.main-unlocked .main-wrap {
   visibility: visible;
   pointer-events: auto;
+  opacity: 1;
 }
 
 .gate {

@@ -56,17 +56,3 @@ export const saveSubscriber = async (email) => {
   }
   return postFallback('/api/subscribe', { email });
 };
-
-export const saveWallet = async (publicKey) => {
-  const client = getClient();
-  if (client) {
-    try {
-      const { error } = await client.from('wallets').insert([{ public_key: publicKey }]);
-      if (!error) return { ok: true, duplicate: false };
-      if (isDuplicateError(error)) return { ok: true, duplicate: true };
-    } catch (_e) {
-      /* fallthrough */
-    }
-  }
-  return postFallback('/api/wallet', { public_key: publicKey });
-};

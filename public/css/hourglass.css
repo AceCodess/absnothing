@@ -10,7 +10,7 @@
   filter:
     drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45))
     drop-shadow(0 0 32px rgba(212, 175, 88, 0.12));
-  animation: hourglass-float 6s ease-in-out infinite;
+  animation: hourglass-float 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 .hourglass-stage::before {
@@ -42,7 +42,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
   }
 }
 

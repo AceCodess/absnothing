@@ -89,7 +89,6 @@
 
   <!-- Page 2: main experience (unchanged) -->
   <div id="main-wrap" class="main-wrap">
-    <div id="watermark" class="watermark" aria-hidden="true">01.06.26</div>
     <div id="torch" aria-hidden="true"></div>
 
     <main id="app">
@@ -117,22 +116,6 @@
           />
           <button type="submit" class="btn btn--primary">subscribe</button>
           <p id="form-msg" class="form-msg" role="status" aria-live="polite"></p>
-        </form>
-
-        <form id="wallet-form" class="form" autocomplete="off" novalidate>
-          <label class="sr-only" for="wallet-address">Solana wallet address</label>
-          <input
-            id="wallet-address"
-            type="text"
-            name="public_key"
-            placeholder="solana wallet address"
-            required
-            spellcheck="false"
-            autocapitalize="off"
-            autocorrect="off"
-          />
-          <button type="submit" class="btn btn--primary">send</button>
-          <p id="wallet-msg" class="form-msg" role="status" aria-live="polite"></p>
         </form>
       </section>
 

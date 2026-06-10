@@ -14,14 +14,6 @@ export const isEmail = (value) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 };
 
-/** Base58 Solana public key (32–44 chars typical) */
-export const isSolanaPublicKey = (value) => {
-  if (typeof value !== 'string') return false;
-  const v = value.trim();
-  if (v.length < 32 || v.length > 64) return false;
-  return /^[1-9A-HJ-NP-Za-km-z]+$/.test(v);
-};
-
 export const prefersReducedMotion = () => {
   try {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -2,7 +2,6 @@ import { initCursor } from './cursor.js';
 import { initBackground } from './background.js';
 import { initHourglass } from './hourglass.js';
 import { initForm } from './form.js';
-import { initWallet } from './wallet.js';
 import { initGate, isUnlocked } from './gate.js';
 
 const bootMain = () => {
@@ -20,7 +19,6 @@ const bootMain = () => {
   initCursor();
   initHourglass();
   initForm();
-  initWallet();
   document.documentElement.classList.add('ready');
 };
 
